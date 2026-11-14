@@ -57,3 +57,21 @@ button{font:inherit;color:inherit;cursor:pointer}
   #cv{height:52vh}
   .stage-h h1{font-size:20px}
 }
+
+/* —— 切换与反馈动效 —— */
+#exps>.mo-ind{background:var(--ink);border-radius:10px}
+#exps.mo-g button.on{background:transparent}
+.exps button{transition:color .25s,background-color .2s,transform .15s}
+.prm .seg>.mo-ind{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.1);border-radius:8px}
+.prm .seg.mo-g button.on{background:transparent;box-shadow:none}
+.prm .seg button{transition:color .2s,transform .15s}
+.btn{transition:transform .15s var(--mo-ease),background-color .2s,border-color .2s,color .2s,box-shadow .2s}
+.btn:active,.exps button:active,.prm .seg button:active{transform:scale(.95)}
+@media (hover:hover){.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}.btn:active{transform:scale(.95)}}
+.zz-in{animation:mo-in .3s var(--mo-ease)}
+.zz-cv{animation:zz-cv .35s var(--mo-ease)}
+@keyframes zz-cv{from{opacity:0;transform:scale(.99)}}
+.prm .l b{display:inline-block;transition:color .2s}
+.prm input[type=range]{transition:filter .2s}
+.prm input[type=range]:active{filter:drop-shadow(0 0 4px rgba(37,99,235,.35))}
+.rd{transition:background-color .3s}

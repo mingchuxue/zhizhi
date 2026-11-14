@@ -361,6 +361,7 @@ function load(k) {
   $('#pp').onclick = () => { running = !running; $('#pp').textContent = running ? '暂停' : '继续'; };
   $('#spd').onclick = () => { speed = speed === 1 ? .25 : 1; $('#spd').textContent = speed === 1 ? '慢放' : '常速'; };
   hud(''); size(); cur.init(p);
+  Motion.enter($('.stage-h'), 'zz-in'); Motion.enter($('#cvWrap'), 'zz-cv'); Motion.stagger($('#params'), '.prm', 40, 8); Motion.stagger($('.side'), '.box', 60, 4); Motion.stagger($('#acts'), '.btn', 30, 6);
 }
 let last = 0;
 function frame(ts) {
@@ -379,6 +380,7 @@ cv.addEventListener('dblclick', e => { cur.dbl && cur.dbl(...pos(e)); });
 addEventListener('resize', () => { size(); if (cur && cur.fit) cur.fit(P_()); });
 $('#exps').innerHTML = Object.entries(EXPS).map(([k, v]) => `<button data-k="${k}">${v.n}</button>`).join('');
 $$('#exps button').forEach(b => b.onclick = () => load(b.dataset.k));
+Motion.pills([{ sel: '#exps', scroll: true }, { sel: '#params .seg' }]);
 const foot = document.createElement('footer'); foot.className = 'foot'; foot.textContent = '数值模拟采用小步长积分，结果与理论公式会有极小的计算误差。'; document.body.appendChild(foot);
 load(EXPS[location.hash.slice(1)] ? location.hash.slice(1) : 'throw');
 requestAnimationFrame(frame);
