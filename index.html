@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>致知 · 物理实验台</title>
+<meta name="description" content="可交互的高中物理实验：抛体运动、单摆、弹簧振子、碰撞、电场线与磁场中的带电粒子。">
+<meta name="theme-color" content="#f5f6f2">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#"><span class="logo"><svg viewBox="0 0 36 36" width="32" height="32"><circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="2"/><path d="M18 2v32M2 18h32" stroke="currentColor" stroke-width="1" opacity=".35"/><path d="M5 26 Q 14 2 30 22" fill="none" stroke="#e8573f" stroke-width="2.4" stroke-linecap="round"/><circle cx="30" cy="22" r="3" fill="#e8573f"/></svg></span><span><b>致知</b><small>物理实验台</small></span></a>
+  <nav class="exps" id="exps"></nav>
+</header>
+<main class="lab">
+  <section class="stage">
+    <div class="stage-h"><div><h1 id="title"></h1><p id="desc"></p></div><div class="acts" id="acts"></div></div>
+    <div class="cv-wrap" id="cvWrap"><canvas id="cv"></canvas><div class="hud" id="hud"></div></div>
+    <div class="graph-wrap" id="graphWrap"><canvas id="gcv"></canvas></div>
+  </section>
+  <aside class="side">
+    <div class="box"><h3>参数</h3><div id="params"></div></div>
+    <div class="box"><h3>读数</h3><div id="reads" class="reads"></div></div>
+    <div class="box note" id="note"></div>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
