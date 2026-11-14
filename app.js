@@ -339,6 +339,80 @@ EXPS.bfield = {
   }
 };
 
+
+const QBANK = {
+  throw: [
+    { q: '不计空气阻力、从地面斜抛时，射程最大的抛射角是？', opts: ['30°', '45°', '60°', '90°'], a: 1, e: 'R = v₀²sin2θ / g，sin2θ 在 θ = 45° 时取最大值 1。' },
+    { q: '平抛运动在水平方向上的运动性质是？', opts: ['匀加速', '匀减速', '匀速', '自由落体'], a: 2, e: '水平方向不受力，因此做匀速直线运动。' },
+    { q: '从地面斜抛，初速度大小不变。要使最大高度变大，应怎么调？', opts: ['减小抛射角', '增大抛射角（不超过 90°）', '只增大质量', '只减小质量'], a: 1, e: 'H = v₀²sin²θ / 2g，θ 越大（不超过 90°），最大高度越大。' },
+    { q: '打开空气阻力后，和真空相比，通常会看到？', opts: ['射程变长', '落地时间一定变短', '射程变短', '轨迹变成直线'], a: 2, e: '阻力始终与速度反向，会消耗机械能，射程一般变短。' }
+  ],
+  pend: [
+    { q: '小角度时，单摆周期公式是？', opts: ['T = 2π√(g/L)', 'T = 2π√(L/g)', 'T = 2π√(m/k)', 'T = 2πL/g'], a: 1, e: '小角度近似下 T = 2π√(L/g)，与摆球质量、振幅无关。' },
+    { q: '把摆长变为原来的 4 倍，小角度周期变为原来的？', opts: ['2 倍', '4 倍', '1/2', '不变'], a: 0, e: '周期与摆长的平方根成正比，√4 = 2。' },
+    { q: '摆角从 5° 增大到 60°，实测周期会？', opts: ['几乎不变', '明显变短', '明显变长', '变为原来的一半'], a: 2, e: '大角度时简谐近似失效，周期会变长。' },
+    { q: '把单摆从地球拿到月球（g 约为地球的 1/6），周期大约？', opts: ['变为 1/6', '变为约 2.45 倍', '不变', '变为 6 倍'], a: 1, e: 'T 与 1/√g 成正比，√6 ≈ 2.45。' }
+  ],
+  spring: [
+    { q: '弹簧振子的周期公式是？', opts: ['T = 2π√(k/m)', 'T = 2π√(m/k)', 'T = 2π√(L/g)', 'T = 2πm/k'], a: 1, e: 'T = 2π√(m/k)，与振幅无关。' },
+    { q: '回复力表达式是？', opts: ['F = kx', 'F = −kx', 'F = −mv²/r', 'F = mg'], a: 1, e: '胡克定律，方向指向平衡位置，故有负号。' },
+    { q: '振幅变为原来的 2 倍，机械能变为原来的？', opts: ['2 倍', '4 倍', '不变', '√2 倍'], a: 1, e: 'E = ½kA²，与振幅平方成正比。' },
+    { q: '有阻尼时，弹簧振子的振幅会？', opts: ['保持不变', '逐渐增大', '逐渐减小', '突然为零'], a: 2, e: '阻尼力做负功，机械能减少，振幅逐渐减小。' }
+  ],
+  coll: [
+    { q: '碰撞过程中，若系统不受外力，一定守恒的是？', opts: ['动能', '动量', '机械能', '速度'], a: 1, e: '合外力为零时动量守恒；动能只在弹性碰撞中守恒。' },
+    { q: '恢复系数 e = 1 表示？', opts: ['完全非弹性碰撞', '弹性碰撞', '没有碰撞', '爆炸'], a: 1, e: 'e = (v₂′−v₁′)/(v₁−v₂)，e = 1 为弹性碰撞。' },
+    { q: '完全非弹性碰撞的特点是？', opts: ['动能不损失', '碰后共速', '动量不守恒', 'e = 1'], a: 1, e: '两物体粘在一起，e = 0，动能损失最多。' },
+    { q: '质量相同的两球，一动一静，弹性对心碰撞后？', opts: ['都停下', '交换速度', '一起运动', '入射球原速弹回'], a: 1, e: '等质量弹性对心碰撞会交换速度。' }
+  ],
+  efield: [
+    { q: '点电荷的场强大小是？', opts: ['E = kQ / r', 'E = kQ / r²', 'E = kQ r²', 'E = Q / 4πεr'], a: 1, e: '库仑场 E = kQ / r²，方向沿径向。' },
+    { q: '电场线的切线方向表示？', opts: ['电势降低最快的方向的反方向', '场强方向', '电荷运动方向', '等势面方向'], a: 1, e: '电场线切线方向即该点场强方向。' },
+    { q: '等势线与电场线的关系是？', opts: ['互相平行', '处处垂直', '没有关系', '重合'], a: 1, e: '沿等势线移动电荷时电场力不做功，故等势线与电场线垂直。' },
+    { q: '电场线从正电荷出发，终止于？', opts: ['无穷远或负电荷', '正电荷', '磁场', '地球'], a: 0, e: '静电场的电场线起于正电荷、止于负电荷（或无穷远）。' }
+  ],
+  bfield: [
+    { q: '洛伦兹力大小公式是？', opts: ['F = qE', 'F = qvB（v 垂直 B）', 'F = mv²/r', 'F = kq₁q₂/r²'], a: 1, e: 'F = qvB sinθ，速度与磁场垂直时 sinθ = 1。' },
+    { q: '匀强磁场中，带电粒子做匀速圆周运动的半径是？', opts: ['r = qB / mv', 'r = mv / (qB)', 'r = qv / B', 'r = mB / qv'], a: 1, e: 'qvB = mv²/r，故 r = mv/(qB)。' },
+    { q: '周期 T = 2πm/(qB)，可见周期与哪一项无关？', opts: ['质量 m', '电荷量 q', '磁感应强度 B', '速率 v'], a: 3, e: '周期与速度无关，这是回旋加速器的重要依据。' },
+    { q: '速度选择器中粒子走直线时，满足？', opts: ['qE = qvB', 'qE = mv²/r', 'E = B', 'v = B/E'], a: 0, e: '电场力与洛伦兹力平衡：qE = qvB，故 v = E/B。' }
+  ]
+};
+
+const ZKEY = 'zhizhi.v1';
+let ZS; try { ZS = Object.assign({ quiz: {}, fav: [], seen: {} }, JSON.parse(localStorage.getItem(ZKEY)||'{}')); } catch { ZS = { quiz: {}, fav: [], seen: {} }; }
+const zsave = () => { try { localStorage.setItem(ZKEY, JSON.stringify(ZS)); } catch {} };
+
+let ZQ = null;
+function openQuiz(k) {
+  const bank = QBANK[k]; if (!bank) return;
+  ZQ = { k, i: 0, ok: 0, qs: bank.slice().sort(()=>Math.random()-0.5), locked: false };
+  renderZQuiz();
+}
+function renderZQuiz() {
+  let box = document.getElementById('zquiz');
+  if (!box) { box = document.createElement('div'); box.id='zquiz'; box.className='zquiz'; box.innerHTML='<div class="zqbg" data-x></div><div class="zqcard" id="zqcard"></div>'; document.body.appendChild(box); box.addEventListener('click', e => { if (e.target.closest('[data-x]')) closeZQuiz(); }); }
+  box.hidden = false;
+  const card = document.getElementById('zqcard');
+  if (ZQ.i >= ZQ.qs.length) {
+    const key = ZQ.k; const prev = ZS.quiz[key]||0; if (ZQ.ok > prev) ZS.quiz[key]=ZQ.ok; zsave();
+    card.innerHTML = `<button class="zqx" data-x aria-label="关闭">×</button><h3>本轮成绩</h3><div class="zqs">${ZQ.ok} / ${ZQ.qs.length}</div><p>${ZQ.ok>prev?'刷新了最好成绩':'最好成绩 '+Math.max(prev,ZQ.ok)+' / '+ZQ.qs.length}</p><div class="zqa"><button class="btn" data-x>返回实验</button><button class="btn pri" id="zqAgain">再来一轮</button></div>`;
+    const ag = document.getElementById('zqAgain'); if (ag) ag.onclick = () => openQuiz(ZQ.k);
+    return;
+  }
+  const q = ZQ.qs[ZQ.i];
+  card.innerHTML = `<button class="zqx" data-x aria-label="关闭">×</button><div class="zqm">${EXPS[ZQ.k].n} · 第 ${ZQ.i+1} / ${ZQ.qs.length} 题</div><h3>${q.q}</h3><div class="zopts">${q.opts.map((o,i)=>`<button class="zo" data-i="${i}">${o}</button>`).join('')}</div><div class="zexp" id="zexp" hidden></div><button class="btn pri" id="zqNx" hidden>${ZQ.i===ZQ.qs.length-1?'看成绩':'下一题'}</button>`;
+  card.querySelectorAll('.zo').forEach(b => b.onclick = () => {
+    if (ZQ.locked) return; ZQ.locked = true;
+    const ok = +b.dataset.i === q.a; if (ok) ZQ.ok++;
+    card.querySelectorAll('.zo').forEach(x => { x.disabled = true; if (+x.dataset.i===q.a) x.classList.add('ok'); else if (x===b && !ok) x.classList.add('bad'); });
+    const exp = document.getElementById('zexp'); exp.hidden=false; exp.textContent = (ok?'答对了。 ':'答错了。 ') + q.e;
+    document.getElementById('zqNx').hidden = false;
+  });
+  document.getElementById('zqNx').onclick = () => { ZQ.i++; ZQ.locked=false; renderZQuiz(); };
+}
+function closeZQuiz() { const box=document.getElementById('zquiz'); if (box) box.hidden=true; }
+
 /* ---------- framework ---------- */
 let curK = 'throw', cur = null, PV = {}, running = true, speed = 1;
 const P_ = () => PV[curK];
@@ -356,10 +430,23 @@ function load(k) {
     if (el) { el.oninput = () => { upd(); cur.onParam && cur.onParam(p, q.k); }; el.addEventListener('sync', upd); }
     if (q.opts) $$(`.seg[data-k="${q.k}"] button`).forEach(b => b.onclick = () => { p[q.k] = +b.dataset.v; if (el) el.value = p[q.k]; $$(`.seg[data-k="${q.k}"] button`).forEach(x => x.classList.toggle('on', x === b)); cur.onParam && cur.onParam(p, q.k); });
   });
-  $('#acts').innerHTML = cur.acts.map(([a, t, c]) => `<button class="btn ${c || ''}" data-a="${a}">${t}</button>`).join('') + `<button class="btn" id="pp">${running ? '暂停' : '继续'}</button><button class="btn" id="spd">${speed === 1 ? '慢放' : '常速'}</button>`;
+  const favOn = (ZS.fav||[]).includes(k);
+  const best = ZS.quiz[k];
+  $('#acts').innerHTML = cur.acts.map(([a, t, c]) => `<button class="btn ${c || ''}" data-a="${a}">${t}</button>`).join('') + `<button class="btn" id="pp">${running ? '暂停' : '继续'}</button><button class="btn" id="spd">${speed === 1 ? '慢放' : '常速'}</button><button class="btn pri" id="zQuiz">随堂练习</button><button class="btn" id="zFav">${favOn?'已收藏':'收藏'}</button>`;
   $$('#acts [data-a]').forEach(b => b.onclick = () => { cur.act(b.dataset.a, p); if (!running) { running = true; $('#pp').textContent = '暂停'; } });
   $('#pp').onclick = () => { running = !running; $('#pp').textContent = running ? '暂停' : '继续'; };
   $('#spd').onclick = () => { speed = speed === 1 ? .25 : 1; $('#spd').textContent = speed === 1 ? '慢放' : '常速'; };
+  $('#zQuiz').onclick = () => openQuiz(k);
+  $('#zFav').onclick = () => { const i=(ZS.fav||[]).indexOf(k); if (i>=0) ZS.fav.splice(i,1); else { ZS.fav=ZS.fav||[]; ZS.fav.push(k); } zsave(); load(k); };
+  ZS.seen[k] = (ZS.seen[k]||0)+1; zsave();
+  const noteEl = $('#note');
+  if (noteEl && !noteEl.querySelector('.zprog')) {
+    const prog = document.createElement('div'); prog.className='zprog';
+    const items = Object.keys(EXPS).map(id => { const n=EXPS[id].n; const b=ZS.quiz[id]; const f=(ZS.fav||[]).includes(id); return `<button class="${id===k?'on':''}" data-k="${id}">${n}${f?' ★':''}${b!=null?` · ${b}/4`:''}</button>`; }).join('');
+    prog.innerHTML = `<h4>练习进度</h4><div class="zplist">${items}</div>` + (best!=null?`<p>本实验最好成绩 ${best} / 4</p>`:'<p>做一组随堂练习，检验对公式的掌握。</p>');
+    noteEl.appendChild(prog);
+    prog.querySelectorAll('button').forEach(b => b.onclick = () => load(b.dataset.k));
+  }
   hud(''); size(); cur.init(p);
   Motion.enter($('.stage-h'), 'zz-in'); Motion.enter($('#cvWrap'), 'zz-cv'); Motion.stagger($('#params'), '.prm', 40, 8); Motion.stagger($('.side'), '.box', 60, 4); Motion.stagger($('#acts'), '.btn', 30, 6);
 }

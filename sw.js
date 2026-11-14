@@ -1,4 +1,4 @@
-const C = 'zhizhi-v2';
+const C = 'zhizhi-v3';
 const CORE = ['./', 'index.html', 'style.css', 'app.js', 'motion.js', 'motion.css', 'icon.svg', 'manifest.webmanifest'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(CORE)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
