@@ -380,8 +380,78 @@ const QBANK = {
 };
 
 const ZKEY = 'zhizhi.v1';
-let ZS; try { ZS = Object.assign({ quiz: {}, fav: [], seen: {} }, JSON.parse(localStorage.getItem(ZKEY)||'{}')); } catch { ZS = { quiz: {}, fav: [], seen: {} }; }
+let ZS; try { ZS = Object.assign({ quiz: {}, fav: [], seen: {}, runs: [] }, JSON.parse(localStorage.getItem(ZKEY)||'{}')); } catch { ZS = { quiz: {}, fav: [], seen: {}, runs: [] }; }
+ZS.runs = ZS.runs || [];
 const zsave = () => { try { localStorage.setItem(ZKEY, JSON.stringify(ZS)); } catch {} };
+let toastT; const toast = m => { let el = $('#toast'); if (!el) { el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); } el.textContent = m; el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 1800); };
+function downsample(data, max = 180) {
+  if (!data.length) return [];
+  const step = data.length <= max ? 1 : (data.length - 1) / (max - 1);
+  const out = [];
+  const n = data.length <= max ? data.length : max;
+  for (let i = 0; i < n; i++) {
+    const row = data[Math.round(i * step)];
+    out.push(row.map(v => +(+v).toFixed(4)));
+  }
+  return out;
+}
+function saveRun() {
+  const has = series.data && series.data.length && series.keys && series.keys.length;
+  const rds = [...$$('#reads .rd')].map(el => {
+    const k = el.querySelector('span'), v = el.querySelector('b');
+    return [k ? k.textContent : '', v ? v.textContent : ''];
+  }).filter(x => x[0] || x[1]);
+  if (!has && !rds.length) { toast('还没有可记录的曲线或读数'); return; }
+  const rec = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), k: curK, t: Date.now(), p: Object.assign({}, PV[curK] || {}), keys: has ? series.keys.map(k => ({ n: k.n, c: k.c })) : [], data: has ? downsample(series.data) : [], reads: rds };
+  ZS.runs = ZS.runs || [];
+  ZS.runs.unshift(rec);
+  const by = {};
+  ZS.runs = ZS.runs.filter(r => { by[r.k] = (by[r.k] || 0) + 1; return by[r.k] <= 12; }).slice(0, 40);
+  zsave();
+  toast('已记下这组数据');
+  paintRuns();
+}
+function applyRun(r) {
+  if (!r) return;
+  const go = () => {
+    if (r.p && PV[curK]) {
+      Object.keys(r.p).forEach(k => { PV[curK][k] = r.p[k]; const el = document.getElementById('prm-' + k); if (el) { el.value = r.p[k]; const lab = document.getElementById('pv-' + k); if (lab) { const q = (cur.P || []).find(x => x.k === k); lab.textContent = r.p[k] + (q && q.u ? ' ' + q.u : ''); } } });
+    }
+    running = false;
+    const pp = $('#pp'); if (pp) pp.textContent = '继续';
+    if (r.keys && r.keys.length && r.data && r.data.length) {
+      series.keys = r.keys; series.data = r.data.map(row => row.slice());
+      $('#graphWrap').hidden = false; size(); drawGraph();
+    }
+    toast('已调出当时的曲线，实验已暂停');
+  };
+  if (r.k !== curK) { load(r.k); setTimeout(go, 0); } else go();
+}
+function exportRun(r) {
+  const header = ['t/s', ...(r.keys || []).map(k => k.n)].join(',');
+  const body = (r.data || []).map(row => row.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([header + '\n' + body], { type: 'text/csv;charset=utf-8' }));
+  const name = (EXPS[r.k] ? EXPS[r.k].n : r.k) + '-' + new Date(r.t).toISOString().slice(0, 16).replace(/[:T]/g, '');
+  a.download = name + '.csv'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+function paintRuns() {
+  let box = $('#zlog');
+  if (!box) { box = document.createElement('div'); box.id = 'zlog'; box.className = 'box zlog'; const side = document.querySelector('.side'); if (side) side.appendChild(box); else return; }
+  const list = (ZS.runs || []).filter(r => r.k === curK);
+  const all = ZS.runs || [];
+  const fmt = t => { const d = new Date(t); const p = n => String(n).padStart(2, '0'); return (d.getMonth()+1) + '月' + d.getDate() + '日 ' + p(d.getHours()) + ':' + p(d.getMinutes()); };
+  box.innerHTML = `<h3>数据记录</h3><p class="zlp">把当前曲线和读数记下来，以后可以调出对照或导出表格。</p>
+    <button class="btn" id="zRec">记下这组</button>
+    ${list.length ? `<div class="zrlist">${list.map(r => `<div class="zr" data-id="${r.id}"><div><b>${fmt(r.t)}</b><span>${(r.data||[]).length} 个点</span></div><div class="zra"><button data-show="${r.id}">调出</button><button data-csv="${r.id}">导出</button><button data-del="${r.id}">删除</button></div></div>`).join('')}</div>` : `<p class="zlp">这个实验还没有记录。</p>`}
+    ${all.length && all.some(r => r.k !== curK) ? `<p class="zlp">其他实验还有 ${all.filter(r => r.k !== curK).length} 组记录。</p>` : ''}`;
+  $('#zRec').onclick = saveRun;
+  $$('[data-show]', box).forEach(b => b.onclick = () => applyRun(all.find(x => x.id === b.dataset.show)));
+  $$('[data-csv]', box).forEach(b => b.onclick = () => { const r = all.find(x => x.id === b.dataset.csv); if (r) exportRun(r); });
+  $$('[data-del]', box).forEach(b => b.onclick = () => { ZS.runs = ZS.runs.filter(x => x.id !== b.dataset.del); zsave(); paintRuns(); });
+}
+
 
 let ZQ = null;
 function openQuiz(k) {
@@ -448,6 +518,7 @@ function load(k) {
     prog.querySelectorAll('button').forEach(b => b.onclick = () => load(b.dataset.k));
   }
   hud(''); size(); cur.init(p);
+  paintRuns();
   Motion.enter($('.stage-h'), 'zz-in'); Motion.enter($('#cvWrap'), 'zz-cv'); Motion.stagger($('#params'), '.prm', 40, 8); Motion.stagger($('.side'), '.box', 60, 4); Motion.stagger($('#acts'), '.btn', 30, 6);
 }
 let last = 0;
